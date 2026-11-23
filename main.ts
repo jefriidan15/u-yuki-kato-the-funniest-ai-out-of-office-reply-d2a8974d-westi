@@ -21,5 +21,11 @@ const ENTRY =
 
 const outDir = process.env.OUTPUT_DIR || "/output";
 
+// Fail loudly instead of silently submitting an over-long entry:
+// the race caps entries at 160 characters.
+if (ENTRY.length > 160) {
+  throw new Error(`Entry is ${ENTRY.length} characters, over the 160-character limit.`);
+}
+
 mkdirSync(outDir, { recursive: true });
 writeFileSync(join(outDir, "entry.txt"), ENTRY, "utf8");
